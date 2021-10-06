@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		let coordinateInput = prompt("Coordinate")
+		let coordinateLinks = coordinateInput.match(/http\S+/g)
+		let coordinateTexts = coordinateInput.replace(/(.*コーディネート|http|タイトル)\S*/g, '').match(/\S{6,}/g)
+		let coordinateSubtitles = coordinateTexts.filter((_,i) => i%4 < 2)
+		let coordinateTitle = coordinateTexts.filter((_,i) => i%4 >= 2)
+
+		let sizeInput = prompt("Size")
+		
+		let sizeHeaders = sizeInput.replace(/"/g, "").replace(/\n（/g, "（").match(/(\(|（)*([一-龠ァ-ヴーぁ-ゔｱ-ｳﾞ々〆〤]|ｻ|ﾊﾞ)\S+/gu)
+		let sizeValues = sizeInput.split(sizeHeaders[sizeHeaders.length - 1])[1].match(/(\w|[ａ-ｚ])\S*/gui)
+		
+		let sizeRows = []
+		
+		for (let i = 0; i <tr sizeValues.length - 1; i++ ) {
+			if (!(i%sizeHeaders.length)) {
+				sizeRows.push([
+					sizeValues[i],
+					sizeValues[i+1],
+					sizeValues[i+2],
+				])
+			}
+		}
+		
+		sizeHeaders = "<tr>" + sizeHeaders.map(header => `<th>${header}</th>`).join("") + "</tr>"
+		sizeRows = sizeRows.map(row => "<tr>" + row.map((col, i) => i == 0 ? `<th>${col}</th>` : `<td>${col}</td>`).join("") + "</tr>").join("\n")
+		document.body.focus()
+		setTimeout(() => 
+		navigator.clipboard.writeText(sizeHeaders + "\n" + sizeRows), 300
+		)
+
+	</script>
+</body>
+</html>
